@@ -1,0 +1,53 @@
+body {
+    text-align: center;
+}
+
+#score, #timer {
+  margin: 0 20px;  
+  font-size: 20px;
+  
+}
+
+section.right {
+  width: 25%;
+}
+
+.right {
+  float: right;
+}
+
+#main {
+  float: unset;
+}
+
+#main canvas {
+  margin: 0 auto;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+canvas {
+    padding-left:330px;
+}
+
+#players {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.images {
+  height: 30%;
+  overflow: hidden;
+  border-radius: 100%;
+  padding-left: 20px;
+  
+}
+
+.images img {
+  height: 100%;
+  margin-top: -40px;
+  margin-bottom: -10px;
+  color: red;
+  cursor: pointer;
+}
+
