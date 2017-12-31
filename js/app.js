@@ -112,7 +112,7 @@ Player.prototype.update = function(){
 
     //check collisions with enemies
     allEnemies.forEach(enemy => {
-        if (this.x >= enemy.x && this.x < enemy.x + 50 && this.y >= enemy.y  && this.y < enemy.y + 66) {
+        if (this.x >= enemy.x   && this.x < enemy.x + 60 && this.y + 30 >= enemy.y   && this.y < enemy.y + 66) {
             alert('Game Over. Your score was: '+Math.round(this.score));
             clearInterval(timer);
             this.x=200;
@@ -236,7 +236,7 @@ var player = new Player(200,350,0);
 var allEnemies = [];
 var allGems=[];
 var gems = new Gems();
-var enemyPosY = [50, 150, 225].forEach(posY => {
+var enemyPosY = [50, 140, 225].forEach(posY => {
     initspeed = 250;
     limitspeed = 400;
     let enemy = new Enemy(0, posY, initspeed + seedRandom(limitspeed));
