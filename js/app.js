@@ -1,6 +1,5 @@
 "use strict";
 // global variables
-//var score=0.0;
 var timer;
 let initspeed=100;
 let limitspeed=100;
@@ -90,9 +89,8 @@ Player.prototype.selectSprite = function () {
     }
     var selectPlayer = function (that) {
         $(that).addClass("img-on");
-        player.setSprite(); // here, when I put 'player' the program runs ok but when I put 'this', I have the following error : Cannot read property 'setSprite' of undefined
-        // I think the error is because "this" changes when I click the image on ClickSelection 
-    };
+        this.setSprite(); 
+    }.bind(this);
     var clickSelection = function () {
         characters.forEach(character => {
             character.click(function () {
