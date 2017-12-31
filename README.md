@@ -1,7 +1,7 @@
 ## Run the game
 ***************
 
-Download the zip file from [arcade game](https://github.com/spsv/arcade-game-frogger.git). Unzipped it and load the file index.html in any browser
+Download the zip file from [arcade game](https://github.com/spsv/arcade-game-frogger/archive/master.zip). Unzipped it and load the file index.html in any browser
 
 ## Arcade Game Frogger
 **********************
