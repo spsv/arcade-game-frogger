@@ -1,7 +1,10 @@
-
+"use strict";
 // global variables
-var score=0.0;
+//var score=0.0;
 var timer;
+let initspeed=100;
+let limitspeed=100;
+var characters=[];
 /**
  * @description Enemy class
  * @param {} - x,y,speed
@@ -22,8 +25,8 @@ var timer;
  */
 
  Enemy.prototype.update = function(dt) {
-    const initspeed = 150;
-    const limitspeed = 500;
+    initspeed = 150;
+    limitspeed = 500;
     this.x = this.x + (this.speed*dt);
     if (this.x > 510) {  //canvas.width
         this.x = -150;
@@ -48,10 +51,11 @@ var timer;
  */
 
  var Player = function (x,y,speed) {
-    this.setSprite();
+    this.selectSprite();
     this.x = x;
     this.y = y;
     this.speed = speed;
+    this.score=0;
 };
 
 /**
@@ -62,22 +66,32 @@ var timer;
 
 Player.prototype.setSprite = function () {
     
-    var boy = $('#char-boy');
-    var catGirl = $('#char-cat-girl');
-    var hornGirl = $('#char-horn-girl');
-    var pinkGirl = $('#char-pink-girl');
-    var princessGirl = $('#char-princess-girl');
-    var characters = [boy, catGirl, hornGirl, pinkGirl, princessGirl];
-    boy.addClass("img-on");
     this.sprite = $('.img-on').attr('src');
+};
+
+/**
+ * @description SelectSprite() method to capture the clicked image
+ * @param {} - none
+ * @return void
+ */
+Player.prototype.selectSprite = function () {
+    var boy = $('.char-boy');
+    var catGirl = $('.char-cat-girl');
+    var hornGirl = $('.char-horn-girl');
+    var pinkGirl = $('.char-pink-girl');
+    var princessGirl = $('.char-princess-girl');
+    characters = [boy, catGirl, hornGirl, pinkGirl, princessGirl];
+    boy.addClass("img-on");
+    this.setSprite();
     var removeImageClass = function () {
         characters.forEach(character => {
             character.removeClass("img-on");
-    });  
+        });
     }
     var selectPlayer = function (that) {
         $(that).addClass("img-on");
-        player.setImage();
+        player.setSprite(); // here, when I put 'player' the program runs ok but when I put 'this', I have the following error : Cannot read property 'setSprite' of undefined
+        // I think the error is because "this" changes when I click the image on ClickSelection 
     };
     var clickSelection = function () {
         characters.forEach(character => {
@@ -90,16 +104,6 @@ Player.prototype.setSprite = function () {
     clickSelection();
 };
 
-/**
- * @description SetImage() method to define the source attribute of player image
- * @param {} - none
- * @return void
- */
-
-Player.prototype.setImage = function () {
-    this.sprite = $('.img-on').attr('src');
-};
-
  /**
  * @description Update() method to calculate collisions with enemies and gems. Define limits of the player
  * @param {} - none
@@ -110,46 +114,27 @@ Player.prototype.update = function(){
 
     //check collisions with enemies
     allEnemies.forEach(enemy => {
-        if (this.x >= enemy.x && this.x < enemy.x + 50 && this.y >= enemy.y && this.y < enemy.y + 50) {
-            alert('Game Over. Your score was: '+Math.round(score));
+        if (this.x >= enemy.x && this.x < enemy.x + 50 && this.y >= enemy.y  && this.y < enemy.y + 66) {
+            alert('Game Over. Your score was: '+Math.round(this.score));
             clearInterval(timer);
-            player.x=200;
-            player.y=350;
+            this.x=200;
+            this.y=350;
             $('.minutes').html("00");
             $('.seconds').html('00');
-            score=0;
-            $('#score').html(Math.round(score));
+            this.score=0;
+            $('.score').html(Math.round(this.score));
             startTime();
         }
     });
     //check collision with gems
     allGems.forEach(gems => {
-        if (this.x >= gems.x+1  && this.x < gems.x + 50 && this.y >= gems.y && this.y < gems.y + 50) {
-            score=score+0.1;
-            $('#score').html(Math.round(score));
+        if (this.x >= gems.x  && this.x < gems.x + 150 && this.y >= gems.y && this.y < gems.y + 100) {
+            this.score=this.score+0.1;
+            $('.score').html(Math.round(this.score));
             
 
         }
     });
-    //win
-    if (this.y < 0) {
-        score++;
-        this.x = 200;
-        this.y = 350;
-        $('#score').html(Math.round(score));
-    }
-    //check limits
-    if (this.y > 380) {
-        this.y = 380;
-    }
-
-    if (this.x > 400) {
-        this.x = 400;
-    }
-
-    if (this.x < 0) {
-        this.x = 0;
-    }
 };
 
 /**
@@ -173,15 +158,30 @@ Player.prototype.handleInput = function(allowedKeys){
     switch(allowedKeys){
         case 'right':
             this.x = this.x + this.speed + dv;
+            if (this.x > 400) {
+                this.x = 400;
+            }
             break;
         case 'left':
             this.x = this.x - this.speed - dv;
+            if (this.x < 0) {
+                this.x = 0;
+            }
             break;
         case 'up':
             this.y = this.y - this.speed - dv;
+            if (this.y < 0) { //win
+                this.score++;
+                this.x = 200;
+                this.y = 350;
+                $('.score').html(Math.round(this.score));
+            }
             break;
         case 'down':
             this.y = this.y + this.speed + dv;
+            if (this.y > 380) {
+                this.y = 380;
+            }
             break;
         }
 };
@@ -211,8 +211,8 @@ var Gems = function(x,y,speed){
  */
 
 Gems.prototype.update = function(dt){
-    const initspeed = 50;
-    const limitspeed = 200;
+    initspeed = 50;
+    limitspeed = 200;
     this.x = this.x + (this.speed * dt);
     if (this.x > 510) {  //canvas.width
         this.x = -150;
@@ -239,14 +239,14 @@ var allEnemies = [];
 var allGems=[];
 var gems = new Gems();
 var enemyPosY = [50, 150, 225].forEach(posY => {
-    const initspeed = 250;
-    const limitspeed = 400;
+    initspeed = 250;
+    limitspeed = 400;
     let enemy = new Enemy(0, posY, initspeed + seedRandom(limitspeed));
     return allEnemies.push(enemy);
 });
-var gemPosY = [70, 140, 230].forEach(posY => {
-    const initspeed = 50;
-    const limitspeed = 200;
+var gemPosY = [70, 140, 220].forEach(posY => {
+    initspeed = 50;
+    limitspeed = 200;
     let gems = new Gems(0, posY, initspeed + seedRandom(limitspeed));
     return allGems.push(gems);
 });

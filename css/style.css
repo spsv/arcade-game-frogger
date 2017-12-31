@@ -2,7 +2,7 @@ body {
     text-align: center;
 }
 
-#score, #timer {
+.score, .timer {
   margin: 0 20px;  
   font-size: 20px;
   
@@ -16,11 +16,11 @@ section.right {
   float: right;
 }
 
-#main {
+.main {
   float: unset;
 }
 
-#main canvas {
+.main canvas {
   margin: 0 auto;
   padding-left: 100px;
   padding-right: 100px;
@@ -30,7 +30,7 @@ canvas {
     padding-left:330px;
 }
 
-#players {
+.players {
   width: 70%;
   margin: 0 auto;
 }

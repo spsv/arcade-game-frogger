@@ -1,5 +1,10 @@
+## Run the game
+***************
+
+Download the zip file from ![my github](https://github.com/spsv/arcade-game-frogger.git). Unzipped it and load the file index.html in any browser
+
 ## Arcade Game Frogger
-===============================
+**********************
 
 Rules:
 1. Select the player anytime
@@ -10,6 +15,6 @@ Rules:
 6. Good luck!!
 
 ## Notice
-===============================
+*********
 
-This is the fourth project in Udacity's of Front End Developer Nanodegree program using HTML, CSS, JS. You can download the zip from the github and run index.html
+This is the fourth project in Udacity's of Front End Developer Nanodegree program using HTML, CSS, JS. 
